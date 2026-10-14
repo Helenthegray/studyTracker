@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <div class="app">
+
+        <!-- ====== HEADER (theme toggle removed) ====== -->
+        <header class="app-header">
+            <div class="header-left">
+                <span class="app-logo">📚</span>
+                <h1>Study Tracker</h1>
+            </div>
+        </header>
+
+        <!-- ==================================================
+             HOME SECTION
+             ================================================== -->
+        <section class="page-section active" id="homeSection">
+
+            <!-- Calendar Bar -->
+            <section class="calendar-bar" id="calendarBar"></section>
+
+            <!-- Pomodoro Timer -->
+            <section class="timer-section">
+
+                <div class="subject-selector">
+                    <label for="subjectSelect">Studying</label>
+                    <select id="subjectSelect">
+                        <option value="Literature">Literature</option>
+                        <option value="Theatre">Theatre</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Language">Language</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="timer-ring-wrapper">
+                    <svg class="timer-ring" viewBox="0 0 100 100">
+                        <circle class="timer-ring-track" cx="50" cy="50" r="45" />
+                        <circle class="timer-ring-progress" cx="50" cy="50" r="45" />
+                    </svg>
+                    <div class="timer-ring-content">
+                        <span class="timer-mode" id="timerMode">Focus</span>
+                        <span class="timer-display" id="timerDisplay">25:00</span>
+                    </div>
+                </div>
+
+                <div class="cycle-dots" id="cycleDots">
+                    <span class="cycle-dot"></span>
+                    <span class="cycle-dot"></span>
+                    <span class="cycle-dot"></span>
+                    <span class="cycle-dot"></span>
+                </div>
+
+                <div class="timer-presets">
+                    <button class="preset-btn active" data-focus="25" data-break="5">25 / 5</button>
+                    <button class="preset-btn" data-focus="50" data-break="10">50 / 10</button>
+                    <button class="preset-btn" id="customPresetBtn">Custom</button>
+                </div>
+
+                <div class="timer-controls">
+                    <button class="btn-primary" id="startPauseBtn">Start</button>
+                    <button class="btn-secondary" id="resetBtn">Reset</button>
+                </div>
+
+            </section>
+
+            <!-- Custom Timer Modal -->
+            <div class="custom-modal" id="customModal">
+                <div class="custom-modal-card">
+                    <h3>Custom Timer</h3>
+                    <p>Set your own focus and break durations.</p>
+
+                    <div class="custom-input-group">
+                        <label for="customFocus">Focus (minutes)</label>
+                        <input type="number" id="customFocus" min="1" max="180" value="25" />
+                    </div>
+
+                    <div class="custom-input-group">
+                        <label for="customBreak">Break (minutes)</label>
+                        <input type="number" id="customBreak" min="1" max="60" value="5" />
+                    </div>
+
+                    <div class="custom-modal-actions">
+                        <button class="btn-secondary" id="cancelCustom">Cancel</button>
+                        <button class="btn-primary" id="saveCustom">Save</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================================================
+             REPORT SECTION
+             ================================================== -->
+        <section class="page-section" id="reportSection">
+
+            <!-- Empty state -->
+            <div class="empty-state" id="reportEmpty" style="display:none;">
+                <div class="empty-state-icon">📊</div>
+                <h3>No data yet</h3>
+                <p>Complete your first pomodoro session to see your progress here.</p>
+            </div>
+
+            <!-- Report content -->
+            <div id="reportContent">
+
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <span class="summary-icon">⏱️</span>
+                        <span class="summary-label">Today</span>
+                        <span class="summary-value" id="statToday">0 min</span>
+                    </div>
+                    <div class="summary-card">
+                        <span class="summary-icon">📅</span>
+                        <span class="summary-label">Week</span>
+                        <span class="summary-value" id="statWeek">0 min</span>
+                    </div>
+                    <div class="summary-card">
+                        <span class="summary-icon">🔥</span>
+                        <span class="summary-label">Streak</span>
+                        <span class="summary-value" id="statStreak">0 days</span>
+                    </div>
+                </div>
+
+                <!-- Weekly Chart -->
+                <div class="report-block">
+                    <h3 class="report-block-title">This Week</h3>
+                    <div class="weekly-chart" id="weeklyChart"></div>
+                </div>
+
+                <!-- Subject Breakdown -->
+                <div class="report-block">
+                    <h3 class="report-block-title">By Subject</h3>
+                    <div class="subject-list" id="subjectList"></div>
+                </div>
+
+                <!-- Recent Sessions -->
+                <div class="report-block">
+                    <h3 class="report-block-title">Recent Sessions</h3>
+                    <div class="recent-sessions" id="recentSessions"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+                <!-- ==================================================
+             SETTINGS SECTION
+             ================================================== -->
+        <section class="page-section" id="settingsSection">
+
+            <h2 class="settings-title">Settings</h2>
+
+            <!-- ─────── APPEARANCE ─────── -->
+            <div class="settings-block">
+                <h3 class="settings-block-title">🎨 Appearance</h3>
+
+                <div class="settings-row">
+                    <div class="settings-row-label">
+                        <span class="settings-row-name">Theme</span>
+                        <span class="settings-row-desc">Light or dark mode</span>
+                    </div>
+                    <div class="theme-switch" id="themeSwitch">
+                        <button class="theme-option active" data-theme="light">☀️ Light</button>
+                        <button class="theme-option" data-theme="dark">🌙 Dark</button>
+                    </div>
+                </div>
+
+                <div class="settings-row">
+                    <div class="settings-row-label">
+                        <span class="settings-row-name">Sound</span>
+                        <span class="settings-row-desc">Beep when timer ends</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="soundToggle" checked />
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- ─────── TIMER DEFAULTS ─────── -->
+            <div class="settings-block">
+                <h3 class="settings-block-title">⏱️ Timer Defaults</h3>
+
+                <div class="settings-row">
+                    <div class="settings-row-label">
+                        <span class="settings-row-name">Focus duration</span>
+                        <span class="settings-row-desc">Length of one pomodoro</span>
+                    </div>
+                    <div class="number-input">
+                        <input type="number" id="settingFocus" min="1" max="180" value="25" />
+                        <span class="number-suffix">min</span>
+                    </div>
+                </div>
+
+                <div class="settings-row">
+                    <div class="settings-row-label">
+                        <span class="settings-row-name">Short break</span>
+                        <span class="settings-row-desc">After each focus session</span>
+                    </div>
+                    <div class="number-input">
+                        <input type="number" id="settingShortBreak" min="1" max="60" value="5" />
+                        <span class="number-suffix">min</span>
+                    </div>
+                </div>
+
+                <div class="settings-row">
+                    <div class="settings-row-label">
+                        <span class="settings-row-name">Long break</span>
+                        <span class="settings-row-desc">After 4 focus sessions</span>
+                    </div>
+                    <div class="number-input">
+                        <input type="number" id="settingLongBreak" min="1" max="60" value="15" />
+                        <span class="number-suffix">min</span>
+                    </div>
+                </div>
+
+                <div class="settings-row">
+                    <div class="settings-row-label">
+                        <span class="settings-row-name">Auto-start breaks</span>
+                        <span class="settings-row-desc">Start next phase automatically</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="autoStartToggle" checked />
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- ─────── SUBJECTS ─────── -->
+            <div class="settings-block">
+                <h3 class="settings-block-title">📚 Subjects</h3>
+                <div class="subject-manager" id="subjectManager"></div>
+
+                <div class="add-subject-row">
+                    <input type="text" id="newSubjectInput" placeholder="Add a new subject..." maxlength="30" />
+                    <button class="btn-primary btn-small" id="addSubjectBtn">+ Add</button>
+                </div>
+            </div>
+
+            <!-- ─────── DATA ─────── -->
+            <div class="settings-block">
+                <h3 class="settings-block-title">🗑️ Data</h3>
+
+                <div class="settings-row">
+                    <div class="settings-row-label">
+                        <span class="settings-row-name">Clear all sessions</span>
+                        <span class="settings-row-desc">Delete all your study history</span>
+                    </div>
+                    <button class="btn-danger" id="clearDataBtn">Clear</button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ====== BOTTOM NAV ====== -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-section="home">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" data-section="report">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Report</span>
+            </button>
+            <button class="nav-item" data-section="settings">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-label">Settings</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
